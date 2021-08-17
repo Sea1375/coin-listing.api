@@ -26,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
         },
         price: {
-            type: DataTypes.DOUBLE(12, 5),
+            type: DataTypes.STRING,
         },
         available_supply: {
             type: DataTypes.STRING,

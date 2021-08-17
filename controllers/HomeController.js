@@ -34,6 +34,8 @@ module.exports.loadCoinListings = async (req, res, next) => {
             transactions.push(priceItem[i].dataValues.transaction)
             allholders.push(priceItem[i].dataValues.holders)
         }
+        if (coinItem[0] == null || coinItem[0].dataValues == null)
+            continue
         coinItem = coinItem[0].dataValues;
         // for 1 weeks price, transaction, holder get values end
 
@@ -108,34 +110,28 @@ function averageCoinArrays(coinItem, mode) {
     retVal = []
     switch (mode) {
         case 0:
-            lpLimit = coinItem.length > 15 ? 15: coinItem.length
+            lpLimit = coinItem.length < 15 ? 1: 15
             for (let i=0; i < lpLimit; i ++) { retVal.push(coinItem[i])}
             break
         case 1:
-            lpLimit = coinItem.length > 30 ? 30: coinItem.length
+            lpLimit = coinItem.length < 30 ? 1 : 30
             for (let i=0; i < lpLimit; i ++) { retVal.push(coinItem[i])}
             break
         case 2:
-            lpLimit = coinItem.length > 90 ? 90: coinItem.length
+            lpLimit = coinItem.length < 90 ? 1 : 90
             for (let i=0; i < lpLimit; i ++) { retVal.push(coinItem[i])}
             break
         case 3:
-            lpLimit = coinItem.length > 180 ? 180: coinItem.length
+            lpLimit = coinItem.length < 180 ? 1 : 180
             for (let i=0; i < lpLimit; i ++) { retVal.push(coinItem[i])}
             break
         case 4:
-            lpLimit = coinItem.length > 720 ? 720: coinItem.length
-            if (lpLimit < 180)
-                for (let i=0; i < lpLimit; i ++) { retVal.push(coinItem[i])}
-            else
-                for (let i=0; i < lpLimit; i += 4) retVal.push(coinItem[i])
+            lpLimit = coinItem.length < 720 ? 1 : 720
+            for (let i=0; i < lpLimit; i += 4) retVal.push(coinItem[i])
             break
         case 5:
-            lpLimit = coinItem.length > 5040 ? 5040: coinItem.length
-            if (lpLimit < 180)
-                for (let i=0; i < lpLimit; i ++) { retVal.push(coinItem[i])}
-            else
-                for (let i=0; i < lpLimit; i += 28) retVal.push(coinItem[i])
+            lpLimit = coinItem.length < 5040 ? 1 : 5040
+            for (let i=0; i < lpLimit; i += 28) retVal.push(coinItem[i])
             break
     }
     return retVal.reverse()
