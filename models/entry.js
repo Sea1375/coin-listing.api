@@ -9,6 +9,9 @@ module.exports = function(sequelize, DataTypes) {
             autoIncrement: true
 
         },
+        name: {
+            type: DataTypes.STRING,
+        },
         address: {
             type: DataTypes.STRING,
         },

@@ -1,7 +1,6 @@
-
 {
     "username": "root",
-    "password": "root",
+    "password": "",
     "database": "coin_listing",
     "host": "localhost",
     "dialect": "mysql"
