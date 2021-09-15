@@ -44,9 +44,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-// CronController.loadApiData();
-cron.schedule('*/2 * * * *', () => {
-  CronController.loadApiData();
-})
+CronController.loadApiData();
+// cron.schedule('*/2 * * * *', () => {
+//   CronController.loadApiData();
+// })
 
 module.exports = app;

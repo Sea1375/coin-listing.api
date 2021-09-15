@@ -17,22 +17,13 @@ module.exports.loadCoinListings = async (req, res, next) => {
             order: [
                 ['createdAt', 'DESC']
             ],
-            limit:1
-        })
-        //Now coin price sql end
-
-        // for 1 weeks price, transaction, holder get values begin
-        let priceItem = await models.coin_listing.findAll({
-            where: { entry_id: entry.dataValues.id },
-            order: [
-                ['createdAt', 'DESC']
-            ],
             limit:5040
         })
-        for (let i=0; i < priceItem.length; i++){
-            pricies.push(priceItem[i].dataValues.price)
-            transactions.push(priceItem[i].dataValues.transaction)
-            allholders.push(priceItem[i].dataValues.holders)
+       
+        for (let i=0; i < coinItem.length; i++){
+            pricies.push(coinItem[i].dataValues.price)
+            transactions.push(coinItem[i].dataValues.transaction)
+            allholders.push(coinItem[i].dataValues.holders)
         }
         if (coinItem[0] == null || coinItem[0].dataValues == null)
             continue
@@ -68,33 +59,11 @@ module.exports.loadCoinListings = async (req, res, next) => {
         coinItem.allholders5 = averageCoinArrays(allholders, 5) // 1 week        
         //number holders graph data end
 
-        //coin Age caculate begin
-        let ageValue = await models.coin_listing.findAll({
-            where: { entry_id: entry.dataValues.id },
-            order: [
-                ['updatedAt', 'ASC']
-            ],
-            limit:1
-        })
-        for (let i=0; i < ageValue.length; i++)
-            coinItem.age =  ageValue[i].dataValues.updatedAt
-        console.log(coinItem.age)
-        //coin Age caculate end
-        console.log(pricies)
-
+        coinItem.age =  entry.dataValues.createdAt
+        
         data.push(coinItem);
     }
     return res.status(200).json(data)
-}
-
-
-function getAge(date) 
-{
-  var now = Date.now();
-
-  var age = new Date();
-  age = (date - now).toUTCString()
-  return age;
 }
 
 function averageCoinArrays(coinItem, mode) {
@@ -135,5 +104,28 @@ function averageCoinArrays(coinItem, mode) {
             break
     }
     return retVal.reverse()
+}
+
+module.exports.columnVisibleChange = async (req, res, next) => {
+    let visible = req.body.visible;
+
+    console.log(visible);
+
+    let column_visible = await models.column_visible.findOne({ where: { column: req.body.column } });
+    if (column_visible === null) {
+        models.column_visible.create({column: req.body.column, visible: visible}).then(result => {
+            return res.status(200).json(result)
+        }).catch(next)
+    } else {
+        column_visible.visible = visible;
+        await column_visible.save();
+        return res.status(200).json(column_visible)
+    }
+}
+
+module.exports.getColumnVisibles = async (req, res, next) => {
+    let visibles = await models.column_visible.findAll();
+    console.log(visibles);
+    return res.status(200).json(visibles);
 }
 

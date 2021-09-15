@@ -1,19 +1,18 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var entry = sequelize.define("entry", {
+    var setting = sequelize.define("setting", {
         // column in init migration path
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
-
         },
-        address: {
+        key: {
             type: DataTypes.STRING,
         },
-        email_send_time: {
-            type: DataTypes.DATE
+        value: {
+            type: DataTypes.STRING,
         },
         createdAt: {
             type: DataTypes.DATE
@@ -22,5 +21,5 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.DATE
         }
     });
-    return entry;
+    return setting;
 };

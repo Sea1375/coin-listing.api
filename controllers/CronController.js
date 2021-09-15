@@ -12,7 +12,7 @@ module.exports.loadApiData = async () => {
 
         try {
             let url = 'https://api.ethplorer.io/getTokenInfo/' + entry.dataValues.address + '?apiKey=' + api_key;
-            console.log(url); 
+            
             const response = await axios.get(url);
 
             let res = response.data;
@@ -38,7 +38,7 @@ module.exports.loadApiData = async () => {
 
             models.coin_listing.create(data);
           } catch (error) {
-            console.log('error');
+            console.log('token info fetch error');
         }
     }
 }

@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var entry = sequelize.define("entry", {
+    var column_visible = sequelize.define("column_visible", {
         // column in init migration path
         id: {
             type: DataTypes.INTEGER,
@@ -9,11 +9,11 @@ module.exports = function(sequelize, DataTypes) {
             autoIncrement: true
 
         },
-        address: {
+        column: {
             type: DataTypes.STRING,
         },
-        email_send_time: {
-            type: DataTypes.DATE
+        visible: {
+            type: DataTypes.BOOLEAN
         },
         createdAt: {
             type: DataTypes.DATE
@@ -22,5 +22,5 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.DATE
         }
     });
-    return entry;
+    return column_visible;
 };
